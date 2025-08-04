@@ -1,0 +1,11 @@
+statefuleset:
+ labels: postgres
+ image: postgres:17
+ containerPort: 5432
+ storageClassName: local-path
+ POSTGRES_DB: postgresql
+ namespace: webapp
+ ports: 5432
+ targetPort: 5432
+ replicas: 1
+

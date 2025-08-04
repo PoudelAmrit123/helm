@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: {{ .Values.statefuleset.namespace }}
+spec:
+  serviceName: "postgres"
+  replicas: {{ .Values.statefuleset.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.statefuleset.labels }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.statefuleset.labels }}
+    spec:
+      containers:
+        - name: postgres
+          image: {{ .Values.statefuleset.image }}
+          ports:
+            - containerPort: {{ .Values.statefuleset.containerPort }}
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+            - secretRef:
+                name: postgres-secret
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: pgdata
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: {{ .Values.statefuleset.storageClassName}}

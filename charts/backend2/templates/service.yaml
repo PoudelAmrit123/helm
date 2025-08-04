@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend2-service
+  namespace: {{ .Values.backend2.namespace }}
+spec:
+  selector:
+    app: backend2
+  ports:
+    - protocol: TCP
+      port: {{ .Values.backend2.service.env.PORT}}
+      targetPort: {{ .Values.backend2.service.env.TARGET_PORT }}
+      

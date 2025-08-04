@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: webapp
+spec:
+  replicas: {{ .Values.frontend.replicas}}
+  selector:
+    matchLabels:
+      app: {{ .Values.frontend.labels}}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.frontend.labels }}
+    spec:
+      containers:
+      - name: backend2
+        image: {{ .Values.frontend.image }}
+        resources:
+          limits:
+            memory: {{ .Values.frontend.resources.limits.memory }}
+            cpu: {{ .Values.frontend.resources.limits.cpu }}
+        ports:
+        - containerPort: {{ .Values.frontend.containerPort }}

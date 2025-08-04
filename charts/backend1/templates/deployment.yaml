@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend1
+  namespace: {{ .Values.backend1.namespace}}
+spec:
+  replicas: {{ .Values.backend1.replicas}}
+  selector:
+    matchLabels:
+      app: {{ .Values.backend1.labels }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.backend1.labels }}
+    spec:
+      containers:
+      - name: backend1
+        image: {{ .Values.backend1.image }}
+        envFrom:
+        - configMapRef:
+            name: backend1-config
+        - secretRef:
+            name: backend-secret
+        resources:
+          limits:
+            memory: {{ .Values.backend1.resources.limits.memory }}
+            cpu: {{ .Values.backend1.resources.limits.cpu }}
+        ports:
+        - containerPort: {{ .Values.backend1.containerPort }}

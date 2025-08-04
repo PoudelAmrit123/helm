@@ -1,0 +1,16 @@
+frontend: 
+ namespace: webapp
+ replicas: 1
+ labels: frontend
+ image: amritpoudel/frontendk:v8
+ containerPort: 80
+ resources:
+    limits:
+      cpu: 500m
+      memory: 500Mi
+ service:
+   env:
+    PORT: 8080
+    TARGET_PORT: 80
+  
+ 

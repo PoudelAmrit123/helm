@@ -1,0 +1,11 @@
+Ingress:
+ namespace: webapp
+ replica: 1
+ ingressClassName: nginx
+ hosts: amrit.blogs.com
+ home:
+  port: 8080
+ users:
+  port: 3000
+ blogs:
+  port: 3001

@@ -1,0 +1,26 @@
+backend2: 
+ namespace: webapp
+ replicas: 1
+ labels: backend2
+ image: amritpoudel/backend2k
+ containerPort: "3001"
+ resources:
+    limits:
+      cpu: 500m
+      memory: 500Mi
+ config: 
+  env:
+    DB_HOST: postgres
+    DB_USER: myadmin
+    DB_NAME: postgresql
+    DB_PORT: "5432"
+    DB_CLIENT: pg
+    NODE_ENV: local
+    PORT: "3001"
+    CLERK_PUBLISHABLE_KEY: pk_test_ZW5qb3llZC1iZW5nYWwtMTQuY2xlcmsuYWNjb3VudHMuZGV2JA
+ service:
+   env:
+    PORT: "3001"
+    TARGET_PORT: "3001"
+  
+ 
