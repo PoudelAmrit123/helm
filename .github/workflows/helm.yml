@@ -1,0 +1,32 @@
+name: Publish Helm Charts
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4.3.0
+
+      - name: Package all Helm charts
+        run: |
+          mkdir -p docs
+          rm -f docs/*.tgz
+          for chart in charts/*; do
+            helm package "$chart" -d docs/
+          done
+          helm repo index docs/ --url https://PoudelAmrit123.github.io/helm
+
+      - name: Commit and push packaged charts
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add docs
+          git commit -m "Auto-update Helm charts" || echo "No changes to commit"
+          git push
